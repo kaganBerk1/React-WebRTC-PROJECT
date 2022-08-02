@@ -1,15 +1,22 @@
 import { useState } from 'react'
-
-import './App.css'
+import ReactDOM from "react-dom/client";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import MainPage from './Pages/MainPage';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-
-      
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/home" element={<MainPage />}>
+        
+        </Route>
+      </Routes>
+  </BrowserRouter>
   )
 }
 
