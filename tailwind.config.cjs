@@ -9,6 +9,9 @@ module.exports = {
       },
       colors: {
         'Wisteria': '#ACACDE',
+        "Azure":"#E5FCFF",
+        "Uraniun":"#ABDAFC",
+        "WP":"#25D366"
       },
     },
   },
