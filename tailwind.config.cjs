@@ -2,7 +2,15 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}",],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        '128': '600px',
+        "quarte":"80%"
+      },
+      colors: {
+        'Wisteria': '#ACACDE',
+      },
+    },
   },
   plugins: [],
 }

@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function MainPageHeader() {
   return (
-    <div className="mb-5">
+    <div className="flex justify-between">
       MainPageHeader
     </div>
   )
