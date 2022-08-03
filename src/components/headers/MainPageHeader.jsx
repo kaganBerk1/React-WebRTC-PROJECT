@@ -3,7 +3,7 @@ import { Flowbite } from 'flowbite-react/lib/esm/components'
 export default function MainPageHeader() {
   return (
     <div className="flex justify-center mt-6">
-        <form className='rounded-xl w-5/6 h-12 text-[#313131] bg-white w-6/6'>   
+        <form  className='shadow-lg rounded-xl w-5/6 h-12 text-[#313131] bg-white w-6/6'>   
           <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
           <div class="relative">
               <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
