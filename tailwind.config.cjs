@@ -7,7 +7,9 @@ module.exports = {
     extend: {
       height: {
         '128': '600px',
-        "quarte":"80%"
+      },
+      maxHeight: {
+        '128': '70%',
       },
       colors: {
         'Wisteria': '#ACACDE',
