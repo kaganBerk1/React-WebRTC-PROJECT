@@ -1,5 +1,7 @@
-import React from 'react'
-import { Avatar } from 'flowbite-react';
+import React, { useState } from 'react'
+import { Avatar,Tooltip } from 'flowbite-react';
+import addNew from "../../images/addNew-1.svg"
+import AddNewModal from '../model/AddNewModal';
 export default function MainPageBody(props) {
   let dummyContacts=[
     {
@@ -82,6 +84,8 @@ export default function MainPageBody(props) {
     },
   ]
 
+  const [openModal,setOpenModal]= useState(false)
+
   const customStye={
     height:props.height,
     scrollbarWidth:"none",
@@ -89,12 +93,19 @@ export default function MainPageBody(props) {
     overflowY:"scroll",
     marginRight:"-20px"
   }
+
+  function onCloseModal(){
+    setOpenModal(false)
+  }
+  function onOpenModal(){
+    setOpenModal(true)
+  }
   return (
     <div style={customStye} className="flex flex-1 flex-col  gap-4 mt-6 px-16 items-center">
         {
           dummyContacts.map((val)=>{
             return(
-              <div className='w-full flex cursor-pointer hover:rotate-1 hover:bg-slate-200 p-3 rounded-lg hover:duration-500 duration-500 justify-between mr-3 '>
+              <div className='w-full flex cursor-pointer hover:rotate-1 bg-[#eeeeee] hover:bg-slate-200 p-3 rounded-lg hover:duration-500 duration-500 justify-between mr-3 '>
                 <Avatar
                   img={val.img}
                   rounded={true}
@@ -111,6 +122,14 @@ export default function MainPageBody(props) {
               </div>
             )
           })
+        }
+        <div  onClick={()=>setOpenModal(true)} className='w-14 drop-shadow-2xl cursor-pointer fixed bottom-20 z-20 hover:w-20 hover:duration-500 duration-500'>
+          <Tooltip content={"Add ➕"} style="dark"  animation="duration-500">
+            <img src={addNew}  alt="add new" />
+          </Tooltip>
+        </div>
+        {
+          openModal&&<AddNewModal openModal={openModal} onClose={onCloseModal} onOpen={onOpenModal}></AddNewModal>
         }
     </div>
   )

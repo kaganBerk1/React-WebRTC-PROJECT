@@ -10,7 +10,7 @@ export default function MainPage() {
   const [height, setHeight] = useState(0);
 
   useEffect(() => {
-    window.addEventListener("resize", () => setHeight(ref.current.offsetHeight-48-24-40));
+    window.addEventListener("resize", () => setHeight(ref.current.offsetHeight-48-24-80));
     //setHeight(ref.current.offsetHeight-48-24-30);
   }, []);
 
