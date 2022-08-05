@@ -8,6 +8,7 @@ import {
 import ContactPage from './Pages/ContactPage';
 import MainPage from './Pages/MainPage';
 import "./App.css"
+import CallPage from './Pages/CallPage';
 function App() {
 
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/home" element={<MainPage />}></Route>
         <Route path="/contact/:id" element={<ContactPage />}></Route>
+        <Route path="/contact/:id/call/:type" element={<CallPage />}></Route>
 
       </Routes>
   </BrowserRouter>

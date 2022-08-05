@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar,Tooltip } from 'flowbite-react';
 import video from "../../images/video.svg"
 import phone from "../../images/phone.svg"
@@ -6,10 +6,15 @@ import back from "../../images/back.svg"
 import { useNavigate } from 'react-router-dom';
 
 export default function ContactHeader() {
+    const [id,setId]=useState()
     const navigateTo = useNavigate();
     function goBack(){
         navigateTo(-1)
     }
+    useEffect(()=>{
+        let parts = window.location.pathname.split('/');
+        setId(parts.pop());
+    })
 
   return (
     <div className="sticky flex justify-center mt-6">
@@ -30,10 +35,10 @@ export default function ContactHeader() {
             </div>
             <div className='flex mr-5 items-center'>
                 <Tooltip content={"Video Call"} style="dark"  animation="duration-500">
-                    <img className=' cursor-pointer w-7 mr-6' src={video} alt="video" />
+                    <img onClick={()=>navigateTo(`/contact/${id}/call/video`)} className=' cursor-pointer w-7 mr-6' src={video} alt="video" />
                 </Tooltip>
                 <Tooltip content={"Phone Call"} style="dark"  animation="duration-500">
-                    <img className='w-7 cursor-pointer' src={phone} alt="phone" />
+                    <img onClick={()=>navigateTo(`/contact/${id}/call/phone`)} className='w-7 cursor-pointer' src={phone} alt="phone" />
                 </Tooltip>
 
             </div>
