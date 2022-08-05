@@ -10,18 +10,13 @@ export default function MainPageSide() {
     const [about,setAbout]=useState("Hey there, I am using... asdasdasd asdasdas asdasd")
     const [isCopied, setCopied] = React.useState(false);
 
-    const [disabled,setDisabled]=useState(true)
+
     const nameInput = useRef(null);
     const aboutInput = useRef(null);
 
 
     function handleInputDisabled(){
-        if(disabled){
-            setDisabled(false)
-        }else{
-            setDisabled(true)
-            nameInput.current.focus();
-        }
+        nameInput.current.focus();
     }
 
 
