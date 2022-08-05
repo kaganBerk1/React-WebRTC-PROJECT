@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import ContactPage from './Pages/ContactPage';
 import MainPage from './Pages/MainPage';
-
+import "./App.css"
 function App() {
 
   return (

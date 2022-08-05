@@ -107,7 +107,7 @@ export default function MainPageBody(props) {
     navigateTo(`/contact/${id}`);
   }
   return (
-    <div style={customStye} className="flex flex-1 flex-col  gap-4 mt-6 px-16 items-center">
+    <div style={customStye} className="flex flex-1 flex-col  gap-4 mt-6 px-16 ml-1 items-center">
         {
           dummyContacts.map((val)=>{
             return(
@@ -131,7 +131,9 @@ export default function MainPageBody(props) {
         }
         <div  onClick={()=>setOpenModal(true)} className='w-14 drop-shadow-2xl cursor-pointer fixed bottom-20 z-20 hover:w-20 hover:duration-500 duration-500'>
           <Tooltip content={"Add ➕"} style="dark"  animation="duration-500">
-            <img src={addNew}  alt="add new" />
+            {
+              !props.remove&&<img src={addNew}  alt="add new" />
+            }
           </Tooltip>
         </div>
         {
