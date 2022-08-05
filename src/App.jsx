@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import ContactPage from './Pages/ContactPage';
 import MainPage from './Pages/MainPage';
 
 function App() {
@@ -12,9 +13,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/home" element={<MainPage />}>
-        
-        </Route>
+        <Route path="/home" element={<MainPage />}></Route>
+        <Route path="/contact/:id" element={<ContactPage />}></Route>
+
       </Routes>
   </BrowserRouter>
   )
