@@ -1,23 +1,19 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import React, { useState } from 'react'
-import { auth } from '../../firebase.config'
+
 import { useNavigate  } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 export default function LoginPage() {
-    const {signup,signin} =useAuth()
+    const {currentUser,signup,signin} =useAuth()
     const [mail,setMail] = useState("")
     const [password,setPassword] = useState("")
     const navigateTo =useNavigate()
     
-    async function register(){
-        await signup(mail,password)
-    }
-    
-
     async function login(){
         const user = await signin(mail,password)
         console.log(user)
         localStorage.setItem("accessToken",user.accessToken)
+        
+
         if(user.user.uid){
             navigateTo("/home")
         }
@@ -40,7 +36,7 @@ export default function LoginPage() {
                 <div
                 className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
                 >
-                <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
+                <div className="w-full">
                     <form>
                    
 
@@ -81,7 +77,7 @@ export default function LoginPage() {
                         <p className="text-sm text-[#f1f1f1] font-semibold mt-2 pt-1 mb-0">
                         Don't have an account?
                         <a
-                            href="#!"
+                            href="/register"
                             className="text-red-600 ml-1 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
                             >Register</a
                         >

@@ -34,6 +34,8 @@ function App() {
             </PrivateRoute>
           }></Route>
           <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/register" element={<LoginPage />}></Route>
+
         </Routes>
     </BrowserRouter>
     </AuthProvider>
