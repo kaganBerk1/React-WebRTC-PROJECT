@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import ContactPageBody from '../components/bodies/ContactPageBody';
 import MainPageBody from '../components/bodies/MainPageBody';
 import ContactPageFooter from '../components/footer/ContactPageFooter';
 import ContactHeader from '../components/headers/ContactHeader';
@@ -19,7 +20,7 @@ export default function ContactPage() {
             <div  ref={ref} className='flex-col w-4/6'>
                 <ContactHeader></ContactHeader>
                 <div className='overflow-hidden'>
-                    <MainPageBody height={height-80} remove={true}></MainPageBody>
+                    <ContactPageBody height={height-80} remove={true}></ContactPageBody>
                 </div>
                 <ContactPageFooter></ContactPageFooter>
             </div>

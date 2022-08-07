@@ -29,7 +29,8 @@ module.exports = {
         'Wisteria': '#ACACDE',
         "Azure":"#E5FCFF",
         "Uraniun":"#ABDAFC",
-        "WP":"#B8336A"
+        "WP":"#B8336A",
+        "purpleLight":"#A185E7"
       },
     },
   },

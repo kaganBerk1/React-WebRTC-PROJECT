@@ -9,6 +9,7 @@ import ContactPage from './Pages/ContactPage';
 import MainPage from './Pages/MainPage';
 import "./App.css"
 import CallPage from './Pages/CallPage';
+import LoginPage from './Pages/LoginPage';
 function App() {
 
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/home" element={<MainPage />}></Route>
         <Route path="/contact/:id" element={<ContactPage />}></Route>
         <Route path="/contact/:id/call/:type" element={<CallPage />}></Route>
+        <Route path="/login" element={<LoginPage />}></Route>
 
       </Routes>
   </BrowserRouter>
