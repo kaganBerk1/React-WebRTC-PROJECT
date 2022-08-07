@@ -2,29 +2,25 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import React, { useState } from 'react'
 import { auth } from '../../firebase.config'
 import { useNavigate  } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
 export default function LoginPage() {
+    const {signup,signin} =useAuth()
     const [mail,setMail] = useState("")
     const [password,setPassword] = useState("")
     const navigateTo =useNavigate()
-
+    
     async function register(){
-        try{ 
-            const user = await createUserWithEmailAndPassword(auth,mail,password)
-            console.log(user)
-        }catch(err){
-            console.log(err.message)
-        }
+        await signup(mail,password)
     }
+    
 
     async function login(){
-            try{ 
-                const user = await signInWithEmailAndPassword(auth,mail,password)
-                if(user.user.uid){
-                    navigateTo("/home")
-                }
-            }catch(err){
-                console.log(err.message)
-            }
+        const user = await signin(mail,password)
+        console.log(user)
+        localStorage.setItem("accessToken",user.accessToken)
+        if(user.user.uid){
+            navigateTo("/home")
+        }
     }
 
     function handleMail(value){

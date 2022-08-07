@@ -10,18 +10,33 @@ import MainPage from './Pages/MainPage';
 import "./App.css"
 import CallPage from './Pages/CallPage';
 import LoginPage from './Pages/LoginPage';
+import { AuthProvider } from './contexts/AuthContext';
+import PrivateRoute from './contexts/PrivateRoute';
 function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/home" element={<MainPage />}></Route>
-        <Route path="/contact/:id" element={<ContactPage />}></Route>
-        <Route path="/contact/:id/call/:type" element={<CallPage />}></Route>
-        <Route path="/login" element={<LoginPage />}></Route>
-
-      </Routes>
-  </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/home" element={
+            <PrivateRoute>
+              <MainPage />
+            </PrivateRoute>
+          }></Route>
+          <Route path="/contact/:id" element={
+            <PrivateRoute>
+              <ContactPage />
+            </PrivateRoute>
+          }></Route>
+          <Route path="/contact/:id/call/:type" element={
+            <PrivateRoute>
+              <CallPage />
+            </PrivateRoute>
+          }></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
+        </Routes>
+    </BrowserRouter>
+    </AuthProvider>
   )
 }
 
