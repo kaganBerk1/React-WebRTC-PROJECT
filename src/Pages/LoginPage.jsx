@@ -1,6 +1,41 @@
-import React from 'react'
-
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import React, { useState } from 'react'
+import { auth } from '../../firebase.config'
+import { useNavigate  } from "react-router-dom";
 export default function LoginPage() {
+    const [mail,setMail] = useState("")
+    const [password,setPassword] = useState("")
+    const navigateTo =useNavigate()
+
+    async function register(){
+        try{ 
+            const user = await createUserWithEmailAndPassword(auth,mail,password)
+            console.log(user)
+        }catch(err){
+            console.log(err.message)
+        }
+    }
+
+    async function login(){
+            try{ 
+                const user = await signInWithEmailAndPassword(auth,mail,password)
+                if(user.user.uid){
+                    navigateTo("/home")
+                }
+            }catch(err){
+                console.log(err.message)
+            }
+    }
+
+    function handleMail(value){
+        setMail(value)
+    }
+    
+    function handlePassword(value){
+        setPassword(value)
+    }
+    
+
   return (
     <div  className=' bg-gradient-to-t from-[#8abdd8] via-purple-500 to-[#bfe9ff] flex justify-center items-center min-h-screen z-indexx'>
         <div className='shadow-2xl rounded-3xl aspect-video w-3/4 bg-[#313131] flex flex-col items-center justify-around'>
@@ -19,7 +54,8 @@ export default function LoginPage() {
                         type="text"
                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         id="exampleFormControlInput2"
-                        placeholder="User name"
+                        placeholder="Mail"
+                        onChange={(e)=>handleMail(e.target.value)}
                         />
                     </div>
 
@@ -30,6 +66,7 @@ export default function LoginPage() {
                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         id="exampleFormControlInput2"
                         placeholder="Password"
+                        onChange={(e)=>handlePassword(e.target.value)}
                         />
                     </div>
 {/* 
@@ -40,7 +77,8 @@ export default function LoginPage() {
                     <div className="text-center lg:text-left w-full">
                         <button
                         type="button"
-                        className="inline-block px-7 w-full py-3  bg-blue-600 text-[#f1f1f1] font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-[#a185e7] hover:shadow-lg focus:bg-[#a185e7] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-[#a185e7] active:shadow-lg transition duration-150 ease-in-out"
+                        className="inline-block px-7 w-full py-3  bg-blue-600 text-[#f1f1f1] font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-[#a185e7] hover:shadow-lg focus:bg-[#a185e7] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                        onClick={login}
                         >
                         Login
                         </button>

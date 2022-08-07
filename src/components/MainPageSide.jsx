@@ -6,6 +6,8 @@ import check from "./../images/check-1.svg"
 import copyIcon from "./../images/copy-1.svg"
 import { Avatar, Tooltip,Textarea } from 'flowbite-react';
 import useClickOutside from '../helper/useClickOutside ';
+import { auth } from '../../firebase.config';
+import { signOut } from 'firebase/auth';
 
 export default function MainPageSide() {
     const [isCopied, setCopied] = React.useState(false);
@@ -25,7 +27,7 @@ export default function MainPageSide() {
     const clickRefTextarea = React.useRef();
 
     useEffect(()=>{
-        setIsContactPage(window.location.pathname.includes("contact"))
+        setIsContactPage(window.location.pathname.includes("contact"))      
     })
     
 
@@ -72,6 +74,11 @@ export default function MainPageSide() {
           setCopied(false);
         },800)
       }
+
+    function logout(){
+            signOut(auth)
+    }
+
     return (
     <div  className='rounded-3xl rounded-r-none w-2/6 bg-[#111B21] flex flex-col justify-between items-center'>
             <div className=' mt-8 drop-shadow-xl hover:scale-110 duration-500 hover:duration-500 '>
