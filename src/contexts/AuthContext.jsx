@@ -22,6 +22,7 @@ export  function AuthProvider({children}) {
     async function signup(email,password){
         try{ 
             const user = await createUserWithEmailAndPassword(auth,email,password)
+            return user
         }catch(err){
             console.log(err.message)
         }

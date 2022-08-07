@@ -12,6 +12,7 @@ import CallPage from './Pages/CallPage';
 import LoginPage from './Pages/LoginPage';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './contexts/PrivateRoute';
+import Register from './Pages/RegisterPage';
 function App() {
 
   return (
@@ -34,7 +35,7 @@ function App() {
             </PrivateRoute>
           }></Route>
           <Route path="/login" element={<LoginPage />}></Route>
-          <Route path="/register" element={<LoginPage />}></Route>
+          <Route path="/register" element={<Register />}></Route>
 
         </Routes>
     </BrowserRouter>
