@@ -36,11 +36,11 @@ export default function MainPageSide(props) {
 
     const clickRefInput = React.useRef();
     const clickRefTextarea = React.useRef();
+    const clickDots= React.useRef();
+
 
     useEffect(()=>{
         setIsContactPage(window.location.pathname.includes("contact"))
-        
-        
     })
     
 
@@ -50,6 +50,10 @@ export default function MainPageSide(props) {
 
     useClickOutside(clickRefTextarea,()=>{
         setDisabledTextarea(true)
+    });
+
+    useClickOutside(clickDots,()=>{
+        setDisplayOptions(false)
     });
 
 
@@ -97,7 +101,7 @@ export default function MainPageSide(props) {
     return (
     <div  className='rounded-3xl rounded-r-none w-2/6 bg-[#111B21] flex flex-col justify-between items-center'>
             <div  className='  flex items-end w-full text-white h-7  flex-col  relative top-4 right-4'>
-                <img onClick={()=>setDisplayOptions(!disaplayOptions)} className='w-6 mr-4 relative  cursor-pointer' src={dots} alt="dots"  />
+                <img  ref={clickDots}  onClick={()=>setDisplayOptions(!disaplayOptions)} className='w-6 mr-4 relative  cursor-pointer' src={dots} alt="dots"  />
                 {
                     disaplayOptions&&
                     <ul className='flex flex-col mr-3 mt-1  bg-[#f1f1f1] text-[#313131]  rounded-xl pr-2 pl-2  justify-center'>
