@@ -7,7 +7,6 @@ import { updateUser } from '../../services/UserServices';
 import { useEffect } from 'react';
 export default function MainPageBody(props) {
 
-  const [contacts,setContacts] = useState([])
 
   const [openModal,setOpenModal]= useState(false)
   let navigateTo = useNavigate();
@@ -20,9 +19,6 @@ export default function MainPageBody(props) {
     marginRight:"-20px"
   }
 
-  useEffect(()=>{
-    setContacts(props.userData.contacts)
-  },[props.userData.contacts])
 
   function onCloseModal(){
     setOpenModal(false)
@@ -36,7 +32,7 @@ export default function MainPageBody(props) {
   }
 
   async function updateContacts(contactsObj){
-    let array= contacts
+    let array= props.contacts
     array.push(contactsObj)
     await updateUser("","",props.userData.userId,array)
   }
@@ -47,7 +43,7 @@ export default function MainPageBody(props) {
   return (
     <div style={customStye} className="flex flex-1 flex-col  gap-4 mt-6 px-16 ml-1 items-center">
         {
-          contacts?.map((val)=>{
+          props.contacts?.map((val)=>{
             return(
               <div onClick={()=>handleHistory(val.userId) } className='w-full flex cursor-pointer hover:rotate-1 bg-[#eeeeee] hover:bg-slate-200 p-3 rounded-lg hover:duration-500 duration-500 justify-between mr-3 '>
                 <Avatar

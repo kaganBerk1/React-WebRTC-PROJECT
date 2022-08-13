@@ -12,6 +12,7 @@ export default function MainPage(props) {
   const [height, setHeight] = useState(0);
   const [userData,setUserData]=useState({})
   const {currentUser}=useAuth()
+  const [contacts,setContacts] = useState([])
 
   useEffect(() => {
     setHeight(ref.current.offsetHeight-48-24-80)
@@ -25,11 +26,22 @@ export default function MainPage(props) {
     //setHeight(ref.current.offsetHeight-48-24-30);
   }, []);
 
+  useEffect(()=>{
+    setContacts(userData.contacts)
+  },[userData.contacts])
+
+  
+
   async function getUserData(){
     let user= await getUser(currentUser.uid)
     console.log(user)
     setUserData(user)
     /* localStorage.setItem("userData",user) */
+  }
+
+  function handleUserContacts(searchContacts){
+    setContacts(searchContacts)
+
   }
 
 
@@ -38,9 +50,9 @@ export default function MainPage(props) {
         <div className='shadow-2xl rounded-3xl aspect-video w-3/4 bg-[#f6f6f6] flex'>
             <MainPageSide userData={userData}></MainPageSide>
             <div  ref={ref} className='flex-col w-4/6'>
-                <MainPageHeader userData={userData}></MainPageHeader>
+                <MainPageHeader contacts={contacts} handleUserContacts={handleUserContacts}  getUserData={getUserData}  userData={userData}></MainPageHeader>
                 <div className='overflow-hidden'>
-                    <MainPageBody userData={userData} height={height}></MainPageBody>
+                    <MainPageBody contacts={contacts} userData={userData} height={height}></MainPageBody>
                 </div>
             </div>
         </div>
