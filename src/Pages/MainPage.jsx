@@ -36,6 +36,7 @@ export default function MainPage(props) {
     let user= await getUser(currentUser.uid)
     console.log(user)
     setUserData(user)
+    setContacts(user.contacts)
     /* localStorage.setItem("userData",user) */
   }
 

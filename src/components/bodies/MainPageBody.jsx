@@ -32,7 +32,8 @@ export default function MainPageBody(props) {
   }
 
   async function updateContacts(contactsObj){
-    let array= props.contacts
+    let array= props?.contacts
+    console.log(array)
     array.push(contactsObj)
     await updateUser("","",props.userData.userId,array)
   }

@@ -119,7 +119,7 @@ export default function MainPageSide(props) {
     return (
     <div  className='rounded-3xl rounded-r-none w-2/6 bg-[#111B21] flex flex-col justify-between items-center'>
             <div  className='  flex items-end w-full text-white h-7  flex-col  relative top-4 right-4'>
-                <img  ref={clickDots}  onClick={()=>setDisplayOptions(!disaplayOptions)} className='w-6 mr-4 relative  cursor-pointer' src={dots} alt="dots"  />
+                {!isContactPage&&<img  ref={clickDots}  onClick={()=>setDisplayOptions(!disaplayOptions)} className='w-6 mr-4 relative  cursor-pointer' src={dots} alt="dots"  />}
                 {
                     disaplayOptions&&
                     <ul className='flex flex-col mr-3 mt-1  bg-[#f1f1f1] text-[#313131]  rounded-xl pr-2 pl-2  justify-center'>
@@ -131,7 +131,7 @@ export default function MainPageSide(props) {
             </div>
             <div className=' drop-shadow-xl hover:scale-110 duration-500 hover:duration-500 '>
               <Avatar
-                img={!isContactPage?profileImage:"https://flowbite.com/docs/images/people/profile-picture-5.jpg"}
+                img={!isContactPage?profileImage:""}
                 bordered={true}
                 rounded={true}
                 size="xl"
@@ -142,16 +142,16 @@ export default function MainPageSide(props) {
             <div className='  w-5/6 pr-2 pl-2 justify-between'>
                 <span className='text-[#B8336A] text-xl font-semibold cursor-default'>Your name</span>
                 <div  ref={clickRefInput}  className='flex justify-between items-center'>
-                    <input   ref={nameInput} onChange={(e)=>handleName(e)} disabled={disabledInput}  className='text-[#f1f1f1] focus:opacity-100 opacity-80 cursor-pointer w-5/6 bg-transparent outline-offset-0  outline-none focus:bg-transparent font-normal focus:text-[#fff] text-xl focus:border-b-2 mt-2 border-b-2 border-transparent focus:border-[#B8336A] ' value= {name}></input>
+                    <input   ref={nameInput} onChange={(e)=>handleName(e)} disabled={disabledInput}  className='text-[#f1f1f1] focus:opacity-100 opacity-80 cursor-pointer w-5/6 bg-transparent outline-offset-0  outline-none focus:bg-transparent font-normal focus:text-[#fff] text-xl focus:border-b-2 mt-2 border-b-2 border-transparent focus:border-[#B8336A] ' value= {isContactPage?props.contactUser?.name : name}></input>
                     <Tooltip  content={disabledInput?"Edit":"Save"} style="light"  animation="duration-500">
                        {!isContactPage&& <img   className={`animate-[fadeIn_1s_ease-in-out] w-5 cursor-pointer mb-1 duration-500 hover:rotate-6 `} onClick={handleInputDisabled} src={disabledInput?edit:check} alt="edit" />}
                     </Tooltip>
                 </div>
             </div>
-            <div className=' mt-6 w-5/6 pr-2 pl-2 justify-between  '>
+            <div className=' mt-8 w-5/6 pr-2 pl-2 justify-between  '>
                 <span className='text-[#B8336A]  text-xl font-semibold cursor-default'>About</span>
                 <div ref={clickRefTextarea} className='flex justify-between items-center'>
-                    <textarea onChange={(e)=>handleAbout(e)}  disabled={disabledTextarea}  ref={aboutInput}  id="about" rows="3" className='focus:text-[#fff] focus:opacity-100 opacity-80 text-[#f1f1f1] mt-2 cursor-pointer ring-0 border-t-0 border-r-0 border-b-2 border-l-0 w-5/6 bg-transparent outline-offset-0 resize-none outline-none focus:bg-transparent focus:border-b-2 focus:ring-0  focus:outline-offset-0 text-xl focus:border-[#B8336A] border-transparent p-0' value={about}></textarea>
+                    <textarea onChange={(e)=>handleAbout(e)}  disabled={disabledTextarea}  ref={aboutInput}  id="about" rows="2" className='focus:text-[#fff] focus:opacity-100 opacity-80 text-[#f1f1f1] mt-2 cursor-pointer ring-0 border-t-0 border-r-0 border-b-2 border-l-0 w-5/6 bg-transparent outline-offset-0 resize-none outline-none focus:bg-transparent focus:border-b-2 focus:ring-0  focus:outline-offset-0 text-xl focus:border-[#B8336A] border-transparent p-0' value={isContactPage?props.contactUser?.about : about}></textarea>
                     <Tooltip content={disabledTextarea?"Edit":"Save"} style="light"  animation="duration-500">
                         {
                             !isContactPage&&
@@ -161,10 +161,10 @@ export default function MainPageSide(props) {
                     </Tooltip>
                 </div>
             </div>
-            <div className=' w-5/6 xl:mb-8 pr-2 pl-2 justify-between flex flex-col '>
+            <div className=' w-5/6 xl:mb-12 pr-2 pl-2 justify-between flex flex-col '>
                 <span className= ' text-[#B8336A]  text-xl font-semibold cursor-default'>Your Id</span>
                 <div className='flex justify-between items-center'>
-                    <span className='text-[#fff] text-m focus:opacity-100 opacity-80 cursor-default mt-2 '>{id}</span>
+                    <span className='text-[#fff] text-m focus:opacity-100 opacity-80 cursor-default mt-2 '>{isContactPage?props.contactUser?.userId : id}</span>
                         <Tooltip content={isCopied?"Copied ✔":"Copy "} style="light"  animation="duration-500">
 
                             <img onClick={()=>copy()} className='w-5 cursor-pointer mt-1  duration-300 hover:rotate-6' src={copyIcon} alt="copy" />

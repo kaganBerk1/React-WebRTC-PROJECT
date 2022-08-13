@@ -5,7 +5,7 @@ import phone from "../../images/phone.svg"
 import back from "../../images/back.svg"
 import { useNavigate } from 'react-router-dom';
 
-export default function ContactHeader() {
+export default function ContactHeader(props) {
     const [id,setId]=useState()
     const navigateTo = useNavigate();
     function goBack(){
@@ -26,10 +26,10 @@ export default function ContactHeader() {
                 </Tooltip>
                 <div className='flex ml-4 flex-col'>
                     <div>
-                    Jese Leos
+                    {props.contactUser?.name}
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
-                    Joined in August 2014
+                    Joined in August 2022
                     </div>
                 </div>
             </div>

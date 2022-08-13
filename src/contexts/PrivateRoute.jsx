@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function PrivateRoute({ children }) {
   const { currentUser } = useAuth();
-  const accessToken = localStorage.getItem("accessToken")
 
-  return currentUser || accessToken  ? children : <Navigate to="/login" />;
+
+  return currentUser  ? children : <Navigate to="/login" />;
 }
