@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useNavigate  } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
+import back from "../images/back-white.svg"
 
 export default function Register() {
     const {currentUser,signup,signin} =useAuth()
@@ -15,12 +16,11 @@ export default function Register() {
 
         if(passwordConfirm===password){
             const user = await signup(mail,password)
-            console.log(user)
             if(user.user.uid){
                 navigateTo("/login")
             }
         }else{
-            alert("hi")
+            alert("Password should be same")
         }
     }
 
@@ -46,8 +46,8 @@ export default function Register() {
             <div
             className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
             >
-            <div className="w-full">
-                <form>
+            <div className="w-full ">
+                <form >
                
 
                 
