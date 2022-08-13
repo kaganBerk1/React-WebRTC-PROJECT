@@ -32,12 +32,13 @@ export default function MainPageBody(props) {
   }
 
   async function handleContacts(contactsObj){
-    setContacts(oldArray => [...oldArray, contactsObj]);
-    await updateContacts()
+    await updateContacts(contactsObj)
   }
 
-  async function updateContacts(){
-    await updateUser("","",props.userData.userId,contacts)
+  async function updateContacts(contactsObj){
+    let array= contacts
+    array.push(contactsObj)
+    await updateUser("","",props.userData.userId,array)
   }
 
   function handleHistory(id) {
@@ -48,20 +49,20 @@ export default function MainPageBody(props) {
         {
           contacts?.map((val)=>{
             return(
-              <div onClick={()=>handleHistory(val.id) } className='w-full flex cursor-pointer hover:rotate-1 bg-[#eeeeee] hover:bg-slate-200 p-3 rounded-lg hover:duration-500 duration-500 justify-between mr-3 '>
+              <div onClick={()=>handleHistory(val.userId) } className='w-full flex cursor-pointer hover:rotate-1 bg-[#eeeeee] hover:bg-slate-200 p-3 rounded-lg hover:duration-500 duration-500 justify-between mr-3 '>
                 <Avatar
-                  img={val.img}
+                  img={val.profileImg}
                   rounded={true}
                   size="md"
                 >
                   <div className="space-y-1 font-medium w-full dark:text-white">
                       <span>{val.name}</span>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
-                      {val.date}
+                      {`Joined in August 2022`}
                     </div>
                   </div>
                 </Avatar>
-                <span className="text-sm text-gray-500 dark:text-gray-400">{}</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{``}</span>
               </div>
             )
           })

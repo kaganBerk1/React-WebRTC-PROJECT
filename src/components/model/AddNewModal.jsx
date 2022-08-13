@@ -8,6 +8,7 @@ export default function AddNewModal(props) {
 
     async function addNew(){
         let user= await getUserData() 
+        console.log(user)
         props.handleContacts(user)
         props.onClose();
     }

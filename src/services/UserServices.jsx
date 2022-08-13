@@ -45,7 +45,6 @@ export const updateUser= async function(name,about,userID,contacts){
             await updateDoc(userRef, {
                 name: name,
                 about:about,
-                contacts:contacts
             });
         }
 
