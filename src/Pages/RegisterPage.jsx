@@ -8,6 +8,8 @@ export default function Register() {
     const {currentUser,signup,signin} =useAuth()
     const [mail,setMail] = useState("")
     const [password,setPassword] = useState("")
+    const [error,setError] = useState(false)
+
     const [passwordConfirm,setPasswordConfirm] = useState("")
 
     const navigateTo =useNavigate()
@@ -20,7 +22,7 @@ export default function Register() {
                 navigateTo("/login")
             }
         }else{
-            alert("Password should be same")
+            setError(true)
         }
     }
 
@@ -91,6 +93,7 @@ export default function Register() {
                     Login
                     </button>
                 </div>
+                {error&&<span  className="text-red-600 mt-8 flex justify-center  text-sm ml-1 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out" >Passwords does not match! </span>}
                 </form>
             </div>
             </div>

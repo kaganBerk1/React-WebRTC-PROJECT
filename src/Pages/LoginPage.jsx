@@ -1,24 +1,33 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react';
 
-import { useNavigate  } from "react-router-dom";
+import { useNavigate ,useLocation } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 
 
 export default function LoginPage() {
     const {currentUser,signup,signin} =useAuth()
     const [mail,setMail] = useState("")
+    const [error,setError] = useState(false)
     const [password,setPassword] = useState("")
     const navigateTo =useNavigate()
+
+    const location = useLocation();
+
+    useEffect(() => {
+      setError(false)
+    }, [location]);
     
     async function login(){
         const user = await signin(mail,password)
         console.log(user)
-        localStorage.setItem("accessToken",user.accessToken)
- 
-
+        if(!user){
+            setError(true)
+        }
         if(user.user.uid){
             navigateTo("/home")
         }
+       
     }
 
     function handleMail(value){
@@ -68,7 +77,7 @@ export default function LoginPage() {
                         <a href="#!" className="text-[#f1f1f1]">Forgot password?</a>
                     </div>
  */}
-                    <div className="text-center lg:text-left w-full">
+                    <div className="text-center lg:text-left w-full mb-8">
                         <button
                         type="button"
                         className="inline-block px-7 w-full py-3  bg-blue-600 text-[#f1f1f1] font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-[#a185e7] hover:shadow-lg focus:bg-[#a185e7] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
@@ -85,6 +94,7 @@ export default function LoginPage() {
                         >
                         </p>
                     </div>
+                    {error&&<span  className="text-red-600 flex justify-center  text-xs ml-1 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out" >Incorrect eMail or password. Please try again </span>}
                     </form>
                 </div>
                 </div>
