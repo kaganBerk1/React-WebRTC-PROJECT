@@ -34,16 +34,24 @@ export const getUser= async function(userID){
 }
 
 
-export const updateUser= async function(name,about,userID){
+export const updateUser= async function(name,about,userID,contacts){
     try{ 
         const userRef = doc(db,"users",userID)
-        await updateDoc(userRef, {
-            name: name,
-            about:about
-        });
+        if(contacts){
+            await updateDoc(userRef, {
+                contacts:contacts
+            });
+        }else{
+            await updateDoc(userRef, {
+                name: name,
+                about:about,
+                contacts:contacts
+            });
+        }
 
 
     }catch(err){
         console.log(err.message)
     }
 }
+

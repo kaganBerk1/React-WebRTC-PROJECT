@@ -27,8 +27,8 @@ export default function MainPageSide(props) {
 
 
     const [isContactPage, setIsContactPage] = React.useState(window.location.pathname.includes("contact"));
-    const [name,setName]=useState(props?.userData?.name===""?"Set Name...":props.userData.name)
-    const [about,setAbout]=useState(props?.userData?.about===""?"Set About...":props.userData.about)
+    const [name,setName]=useState(props?.userData?.name===""?"Set Name...":props.userData?.name)
+    const [about,setAbout]=useState(props?.userData?.about===""?"Set About...":props.userData?.about)
     const [id,setId]=useState(props?.userData?.userId)
     const auth =useAuth()
 
@@ -45,9 +45,9 @@ export default function MainPageSide(props) {
     })
 
     useEffect(()=>{
-        setName(props?.userData?.name===""?"Set Name...":props.userData.name);
-        setAbout(props?.userData?.about===""?"Set About...":props.userData.about)
-        setId(props.userData.userId)
+        setName(props?.userData?.name===""?"Set Name...":props.userData?.name);
+        setAbout(props?.userData?.about===""?"Set About...":props.userData?.about)
+        setId(props.userData?.userId)
     },[props.userData])
     
 

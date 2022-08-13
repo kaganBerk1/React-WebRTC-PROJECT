@@ -3,87 +3,11 @@ import { Avatar,Tooltip } from 'flowbite-react';
 import addNew from "../../images/addNew-1.svg"
 import AddNewModal from '../model/AddNewModal';
 import { useNavigate  } from "react-router-dom";
+import { updateUser } from '../../services/UserServices';
+import { useEffect } from 'react';
 export default function MainPageBody(props) {
-  let dummyContacts=[
-    {
-      id:1,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-    },
-    {
-      id:2,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-      
-    },
-    {
-      id:3,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-    },
-    {
-      id:4,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-    },
-    {
-      id:5,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-    },
-    {
-      id:6,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-    },
-    {
-      id:7,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-    },
-    {
-      id:8,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-    },
-    {
-      id:9,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-    },
-    {
-      id:9,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-    },
-    {
-      id:9,
-      name:"Jese Leos",
-      date:"Joined in August 2014",
-      img:"https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-      time:"09.05PM",
-    },
-  ]
+
+  const [contacts,setContacts] = useState([])
 
   const [openModal,setOpenModal]= useState(false)
   let navigateTo = useNavigate();
@@ -96,11 +20,24 @@ export default function MainPageBody(props) {
     marginRight:"-20px"
   }
 
+  useEffect(()=>{
+    setContacts(props.userData.contacts)
+  },[props.userData.contacts])
+
   function onCloseModal(){
     setOpenModal(false)
   }
   function onOpenModal(){
     setOpenModal(true)
+  }
+
+  async function handleContacts(contactsObj){
+    setContacts(oldArray => [...oldArray, contactsObj]);
+    await updateContacts()
+  }
+
+  async function updateContacts(){
+    await updateUser("","",props.userData.userId,contacts)
   }
 
   function handleHistory(id) {
@@ -109,7 +46,7 @@ export default function MainPageBody(props) {
   return (
     <div style={customStye} className="flex flex-1 flex-col  gap-4 mt-6 px-16 ml-1 items-center">
         {
-          dummyContacts.map((val)=>{
+          contacts?.map((val)=>{
             return(
               <div onClick={()=>handleHistory(val.id) } className='w-full flex cursor-pointer hover:rotate-1 bg-[#eeeeee] hover:bg-slate-200 p-3 rounded-lg hover:duration-500 duration-500 justify-between mr-3 '>
                 <Avatar
@@ -124,7 +61,7 @@ export default function MainPageBody(props) {
                     </div>
                   </div>
                 </Avatar>
-                <span className="text-sm text-gray-500 dark:text-gray-400">{val.time}</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{}</span>
               </div>
             )
           })
@@ -137,7 +74,7 @@ export default function MainPageBody(props) {
           </Tooltip>
         </div>
         {
-          openModal&&<AddNewModal openModal={openModal} onClose={onCloseModal} onOpen={onOpenModal}></AddNewModal>
+          openModal&&<AddNewModal handleContacts={handleContacts} openModal={openModal} onClose={onCloseModal} onOpen={onOpenModal}></AddNewModal>
         }
     </div>
   )

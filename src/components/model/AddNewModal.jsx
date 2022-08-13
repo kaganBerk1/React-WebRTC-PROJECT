@@ -1,8 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal, TextInput,Button,Label } from 'flowbite-react';
+import { getUser, updateUser } from '../../services/UserServices';
+import { useAuth } from '../../contexts/AuthContext';
 export default function AddNewModal(props) {
-    function addNew(){
+    const {currentUser}=useAuth();
+    const [newId,setNewId] = useState("")
+
+    async function addNew(){
+        let user= await getUserData() 
+        props.handleContacts(user)
         props.onClose();
+    }
+
+    async function getUserData(){
+        let user= await getUser(newId)
+        return user
+        /* localStorage.setItem("userData",user) */
+    }
+    function handleId(e){
+        setNewId(e.target.value)
     }
   return (
     <React.Fragment>
@@ -30,7 +46,7 @@ export default function AddNewModal(props) {
                 <TextInput
                     id="id"
                     type="text"
-
+                    onChange={(e)=>handleId(e)}
                 />
                 </div>
 
