@@ -11,6 +11,7 @@ import useClickOutside from '../helper/useClickOutside ';
 
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate  } from "react-router-dom";
+import { updateUser } from '../services/UserServices';
 
 
 export default function MainPageSide(props) {
@@ -26,9 +27,9 @@ export default function MainPageSide(props) {
 
 
     const [isContactPage, setIsContactPage] = React.useState(window.location.pathname.includes("contact"));
-    const [name,setName]=useState(!isContactPage?"Kağan Gencer":"Jese Leos")
-    const [about,setAbout]=useState(!isContactPage?"Hey there, I am using... asdasdasd asdasdas asdasd":"sevenelr sevdiğini bir gün bile untumaz derler")
-    const [id,setId]=useState(!isContactPage?"554781-554-7878":"42371-554-7878")
+    const [name,setName]=useState(props?.userData?.name===""?"Set Name...":props.userData.name)
+    const [about,setAbout]=useState(props?.userData?.about===""?"Set About...":props.userData.about)
+    const [id,setId]=useState(props?.userData?.userId)
     const auth =useAuth()
 
     const nameInput = useRef(null);
@@ -42,6 +43,12 @@ export default function MainPageSide(props) {
     useEffect(()=>{
         setIsContactPage(window.location.pathname.includes("contact"))
     })
+
+    useEffect(()=>{
+        setName(props?.userData?.name===""?"Set Name...":props.userData.name);
+        setAbout(props?.userData?.about===""?"Set About...":props.userData.about)
+        setId(props.userData.userId)
+    },[props.userData])
     
 
     useClickOutside(clickRefInput,()=>{
@@ -59,11 +66,13 @@ export default function MainPageSide(props) {
 
     function handleInputDisabled(){
        if(disabledInput){
+        setName("")
         setDisabledInput(false)
         setTimeout(()=>{
             nameInput.current.focus();
-          },50)
+        },50)
        }else{
+        updateUser(name,about,id)
         setDisabledInput(true)
        }
     }
@@ -73,20 +82,29 @@ export default function MainPageSide(props) {
 
     function handleTextArea(){
         if(disabledTextarea){
+            setAbout("")
             setDisabledTextarea(false)
             setTimeout(()=>{
                 aboutInput.current.focus();
             },50)
         }else{
+            updateUser(name,about,id)
             setDisabledTextarea(true)
         }
  
+    }
+    function handleName(e){
+        setName(e.target.value)
+    }
+
+    function handleAbout(e){
+        setAbout(e.target.value)
     }
 
     function copy(){
         setCopied(true);
 
-        navigator.clipboard.writeText("554781-554-7878")
+        navigator.clipboard.writeText(props?.userData?.userId)
         setTimeout(()=>{
           setCopied(false);
         },800)
@@ -124,20 +142,20 @@ export default function MainPageSide(props) {
             <div className='  w-5/6 pr-2 pl-2 justify-between'>
                 <span className='text-[#B8336A] text-xl font-semibold cursor-default'>Your name</span>
                 <div  ref={clickRefInput}  className='flex justify-between items-center'>
-                    <input   ref={nameInput}  disabled={disabledInput}  className='text-[#f1f1f1] focus:opacity-100 opacity-80 cursor-pointer w-5/6 bg-transparent outline-offset-0  outline-none focus:bg-transparent font-normal focus:text-[#fff] text-xl focus:border-b-2 mt-2 border-b-2 border-transparent focus:border-[#B8336A] ' value= {name}></input>
+                    <input   ref={nameInput} onChange={(e)=>handleName(e)} disabled={disabledInput}  className='text-[#f1f1f1] focus:opacity-100 opacity-80 cursor-pointer w-5/6 bg-transparent outline-offset-0  outline-none focus:bg-transparent font-normal focus:text-[#fff] text-xl focus:border-b-2 mt-2 border-b-2 border-transparent focus:border-[#B8336A] ' value= {name}></input>
                     <Tooltip  content={disabledInput?"Edit":"Save"} style="light"  animation="duration-500">
                        {!isContactPage&& <img   className={`animate-[fadeIn_1s_ease-in-out] w-5 cursor-pointer mb-1 duration-500 hover:rotate-6 `} onClick={handleInputDisabled} src={disabledInput?edit:check} alt="edit" />}
                     </Tooltip>
                 </div>
             </div>
-            <div className=' mt-4 w-5/6 pr-2 pl-2 justify-between  '>
+            <div className=' mt-6 w-5/6 pr-2 pl-2 justify-between  '>
                 <span className='text-[#B8336A]  text-xl font-semibold cursor-default'>About</span>
                 <div ref={clickRefTextarea} className='flex justify-between items-center'>
-                    <textarea  disabled={disabledTextarea}  ref={aboutInput}  id="about" rows="3" className='focus:text-[#fff] focus:opacity-100 opacity-80 text-[#f1f1f1] mt-2 cursor-pointer ring-0 border-t-0 border-r-0 border-b-2 border-l-0 w-5/6 bg-transparent outline-offset-0 resize-none outline-none focus:bg-transparent focus:border-b-2 focus:ring-0  focus:outline-offset-0 text-xl focus:border-[#B8336A] border-transparent p-0' value={about}></textarea>
+                    <textarea onChange={(e)=>handleAbout(e)}  disabled={disabledTextarea}  ref={aboutInput}  id="about" rows="3" className='focus:text-[#fff] focus:opacity-100 opacity-80 text-[#f1f1f1] mt-2 cursor-pointer ring-0 border-t-0 border-r-0 border-b-2 border-l-0 w-5/6 bg-transparent outline-offset-0 resize-none outline-none focus:bg-transparent focus:border-b-2 focus:ring-0  focus:outline-offset-0 text-xl focus:border-[#B8336A] border-transparent p-0' value={about}></textarea>
                     <Tooltip content={disabledTextarea?"Edit":"Save"} style="light"  animation="duration-500">
                         {
                             !isContactPage&&
-                            <img className='w-5 cursor-pointer  duration-300 hover:rotate-6 ' onClick={handleTextArea} src={disabledTextarea?edit:check} alt="edit" />
+                            <img className='w-5 mb-8 cursor-pointer  duration-300 hover:rotate-6 ' onClick={handleTextArea} src={disabledTextarea?edit:check} alt="edit" />
                         }
 
                     </Tooltip>
@@ -146,7 +164,7 @@ export default function MainPageSide(props) {
             <div className=' w-5/6 xl:mb-8 pr-2 pl-2 justify-between flex flex-col '>
                 <span className= ' text-[#B8336A]  text-xl font-semibold cursor-default'>Your Id</span>
                 <div className='flex justify-between items-center'>
-                    <span className='text-[#fff] text-xl focus:opacity-100 opacity-80 cursor-default mt-2 '>{id}</span>
+                    <span className='text-[#fff] text-m focus:opacity-100 opacity-80 cursor-default mt-2 '>{id}</span>
                         <Tooltip content={isCopied?"Copied ✔":"Copy "} style="light"  animation="duration-500">
 
                             <img onClick={()=>copy()} className='w-5 cursor-pointer mt-1  duration-300 hover:rotate-6' src={copyIcon} alt="copy" />

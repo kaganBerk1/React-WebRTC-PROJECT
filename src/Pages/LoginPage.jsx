@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate  } from "react-router-dom";
 import { useAuth } from '../contexts/AuthContext';
 
+
 export default function LoginPage() {
     const {currentUser,signup,signin} =useAuth()
     const [mail,setMail] = useState("")
@@ -13,7 +14,7 @@ export default function LoginPage() {
         const user = await signin(mail,password)
         console.log(user)
         localStorage.setItem("accessToken",user.accessToken)
-        
+ 
 
         if(user.user.uid){
             navigateTo("/home")

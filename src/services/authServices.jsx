@@ -1,5 +1,4 @@
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import React, { useContext, useEffect, useState } from 'react'
 import { auth,db} from '../../firebase.config';
 import {
     collection,
@@ -19,9 +18,8 @@ import {
 export const signup= async function(email,password){
     try{ 
         const user = await createUserWithEmailAndPassword(auth,email,password);  
-        const userRef = collection(db,"users")
-        console.log(userRef)
-        await addDoc(userRef,{
+        const userRef = doc(db,"users",user.user.uid)
+        await setDoc(userRef,{
             userId:user.user.uid,
             name: "",
             about:"",
