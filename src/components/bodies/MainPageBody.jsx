@@ -48,7 +48,7 @@ export default function MainPageBody(props) {
             return(
               <div onClick={()=>handleHistory(val.userId) } className='w-full flex cursor-pointer hover:rotate-1 bg-[#eeeeee] hover:bg-slate-200 p-3 rounded-lg hover:duration-500 duration-500 justify-between mr-3 '>
                 <Avatar
-                  img={val.profileImg}
+                  img={val.profileImageUrl}
                   rounded={true}
                   size="md"
                 >

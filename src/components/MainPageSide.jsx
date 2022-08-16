@@ -102,7 +102,6 @@ export default function MainPageSide(props) {
             getDownloadURL(snapshot.ref).then((url) => {
                 updateUserProfileImage(id,url)
                 setProfileImageUrl(url)
-                alert("hello")
             });
         });
 
@@ -174,7 +173,7 @@ export default function MainPageSide(props) {
                     setStyleChanged(true)
                 }} className={styleChange && !isContactPage ?"z-20 hover:z-10 duration-300 brightness-50 hover:duration-300 ":"z-20 hover:z-10 duration-300 hover:duration-300 "}>
                 <Avatar
-                    img={!isContactPage?profileImageUrl:""}
+                    img={!isContactPage?profileImageUrl:props.contactUser?.profileImageUrl}
                     bordered={true}
                     rounded={true}
                     size="xl"
