@@ -1,5 +1,3 @@
-import React from 'react'
-
 import {db} from '../firebase.config';
 import {
     collection,
@@ -12,6 +10,7 @@ import {
     setDoc,
     onSnapshot
   } from "firebase/firestore";
+
 
 
 export const getUser= async function(userID){

@@ -34,6 +34,7 @@ export default function MainPage(props) {
 
   async function getUserData(){
     let user= await getUser(currentUser.uid)
+    props.handleId(currentUser.uid)
     console.log(user)
     setUserData(user)
     setContacts(user.contacts?user.contacts:[])

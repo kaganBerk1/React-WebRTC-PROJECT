@@ -13,15 +13,26 @@ import LoginPage from './Pages/LoginPage';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './contexts/PrivateRoute';
 import Register from './Pages/RegisterPage';
-function App() {
+import { io } from 'socket.io-client';
+import { useEffect } from 'react';
+import { set } from 'firebase/database';
 
+function App() {
+  let socket = io.connect('http://localhost:5000')
+  function handleId(newId){
+    if(newId!==""){
+      socket.emit("saveConnectionID", {
+        userId: newId,
+      })
+    }
+  }
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/home" element={
             <PrivateRoute>
-              <MainPage />
+              <MainPage handleId={handleId} />
             </PrivateRoute>
           }></Route>
           <Route path="/contact/:id" element={
@@ -31,7 +42,7 @@ function App() {
           }></Route>
           <Route path="/contact/:id/call/:type" element={
             <PrivateRoute>
-              <CallPage />
+              <CallPage  socket={socket} />
             </PrivateRoute>
           }></Route>
           <Route path="/login" element={<LoginPage />}></Route>

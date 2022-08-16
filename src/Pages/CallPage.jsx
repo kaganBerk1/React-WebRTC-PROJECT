@@ -4,18 +4,19 @@ import phoneClose from "../images/phone-close.svg"
 import { Tooltip } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import user from "../images/user.png"
-import { io } from 'socket.io-client';
 import Peer from "simple-peer"
 import { useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { set } from 'firebase/database';
+import { getUser } from '../services/UserServices';
 
-let socket = io.connect('http://localhost:5000')
 
-export default function CallPage() {
+export default function CallPage(props) {
+    let socket=props.socket
     const [calling,setCalling]=useState(true)
     const [type,setType]=useState("")
     const {currentUser} = useAuth()
-    const [ me, setMe ] = useState(currentUser.uid)
+    const [ me, setMe ] = useState(currentUser.connectionID)
 	const [ stream, setStream ] = useState()
 	const [ receivingCall, setReceivingCall ] = useState(false)
 	const [ caller, setCaller ] = useState("")
@@ -28,9 +29,19 @@ export default function CallPage() {
 	const userVideo = useRef()
 	const connectionRef= useRef()
     const navigateTo = useNavigate();
-    
+
     let ids=null
     useEffect(()=>{
+        async function fetchData() {
+            // You can await here
+            let parts = window.location.pathname.split('/');
+            await getUserData(currentUser.uid,"sender")
+            await getUserData(parts[2],"reciever")
+
+            // ...
+          }
+        fetchData();
+
         let parts = window.location.pathname.split('/');
         setType(parts.pop());
 		navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
@@ -38,21 +49,30 @@ export default function CallPage() {
 				myVideo.current.srcObject = stream
 		})
 
-	    socket.on("me", (id) => {
-			setMe(id)
-		})
-
 		socket.on("callUser", (data) => {
+            alert("as")
 			setReceivingCall(true)
+            console.log(data.from)
 			setCaller(data.from)
 			setName(data.name)
 			setCallerSignal(data.signal)
-            alert("as")
 		})
 
-        
-       
+
+
     },[])
+
+    async function getUserData(id,type){
+        let user= await getUser(id)
+        if(type=="reciever"){
+            alert("h2")
+            setIdToCall(user.connectionID)
+        }else{
+            alert("hi1")
+            setMe(user.connectionID)
+        }
+        /* localStorage.setItem("userData",user) */
+      }
 
 
 
@@ -72,7 +92,7 @@ export default function CallPage() {
 			})
 		})
 		peer.on("stream", (stream) => {
-			
+                alert("lel")
 				userVideo.current.srcObject = stream
 			
 		})
@@ -127,7 +147,7 @@ export default function CallPage() {
                             <img className='w-12' src={user} alt=""  />
                         }
                     </div>
-                    <div className='flex flex-row'>
+{/*                     <div className='flex flex-row'>
                         <span className='text-white'>{me}</span>
                         <textarea
                         id="filled-basic"
@@ -137,7 +157,7 @@ export default function CallPage() {
                         value={idToCall}
                         onChange={(e) => setIdToCall(e.target.value)}
                         />
-                    </div>
+                    </div> */}
                     <div className='w-3/6  bg-[#f1f1f1] ml-3 mr-6 rounded-3xl flex justify-center items-center'>
                         {
                             type==="video"?

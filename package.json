@@ -1,7 +1,7 @@
 {
   "name": "webrtc-project",
   "private": true,
-  "proxy": "http://127.0.0.1 :5000/",
+  "proxy": "http://localhost:5000/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -19,7 +19,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
-    "simple-peer": "^9.9.3",
+    "simple-peer": "^9.11.1",
     "socket.io-client": "^4.5.1"
   },
   "devDependencies": {
