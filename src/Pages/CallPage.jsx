@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import loader from "../images/loader.svg"
 import phoneClose from "../images/phone-close.svg"
+import phoneCall from "../images/phone-call.png"
+
 import { Tooltip } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import user from "../images/user.png"
@@ -30,7 +32,7 @@ export default function CallPage(props) {
 	const connectionRef= useRef()
     const navigateTo = useNavigate();
 
-    let ids=null
+    
     useEffect(()=>{
         async function fetchData() {
             // You can await here
@@ -45,12 +47,12 @@ export default function CallPage(props) {
         let parts = window.location.pathname.split('/');
         setType(parts.pop());
 		navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-			setStream(stream)
+			    setStream(stream)
 				myVideo.current.srcObject = stream
+                window.localStream = stream;
 		})
 
 		socket.on("callUser", (data) => {
-            alert("as")
 			setReceivingCall(true)
             console.log(data.from)
 			setCaller(data.from)
@@ -65,10 +67,8 @@ export default function CallPage(props) {
     async function getUserData(id,type){
         let user= await getUser(id)
         if(type=="reciever"){
-            alert("h2")
             setIdToCall(user.connectionID)
         }else{
-            alert("hi1")
             setMe(user.connectionID)
         }
         /* localStorage.setItem("userData",user) */
@@ -82,7 +82,6 @@ export default function CallPage(props) {
 			trickle: false,
 			stream: stream
 		})
-        alert("sa")
 		peer.on("signal", (data) => {
 			socket.emit("callUser", {
 				userToCall: id,
@@ -92,12 +91,10 @@ export default function CallPage(props) {
 			})
 		})
 		peer.on("stream", (stream) => {
-                alert("lel")
 				userVideo.current.srcObject = stream
 			
 		})
 		socket.on("callAccepted", (signal) => {
-            alert("hey")
 			setCallAccepted(true)
 			peer.signal(signal)
 		})
@@ -126,9 +123,10 @@ export default function CallPage(props) {
 	}
 
     const leaveCall = () => {
-		setCallEnded(true)
-		connectionRef.current.destroy()
+        setCallEnded(true)
+        localStream.getVideoTracks()[0].stop();
         navigateTo(-1)
+		connectionRef.current.destroy()
 	}
 
 
@@ -136,11 +134,11 @@ export default function CallPage(props) {
     <div  className=' bg-gradient-to-t from-[#8abdd8] via-purple-500 to-[#bfe9ff] flex justify-center items-center min-h-screen z-indexx'>
         <div className='shadow-2xl rounded-3xl aspect-video w-3/4 bg-[#313131] flex flex-col items-center justify-around'>
                 <div className='w-full flex h-3/6 mt-8'>
-                    <div className='w-3/6  bg-[#f1f1f1] mr-3 ml-6 rounded-3xl flex justify-center items-center'>
+                    <div className='w-3/6  bg-[#f1f1f1] mr-3 ml-6 rounded-3xl flex justify-center items-center overflow-hidden'>
                         {
                             type==="video"?
                             <>
-                            {stream ?  <video playsInline muted  ref={myVideo} autoPlay className='z-10  rounded-3xl ' />:<img className='w-12' src={loader} alt="loader" />}
+                            {stream ?  <video playsInline muted  ref={myVideo} autoPlay className='z-10    rounded-3xl ' />:<img className='w-12' src={loader} alt="loader" />}
                             </>
                     
                             :
@@ -158,12 +156,12 @@ export default function CallPage(props) {
                         onChange={(e) => setIdToCall(e.target.value)}
                         />
                     </div> */}
-                    <div className='w-3/6  bg-[#f1f1f1] ml-3 mr-6 rounded-3xl flex justify-center items-center'>
+                    <div className='w-3/6   bg-[#f1f1f1] ml-3 mr-6 rounded-3xl flex justify-center items-center overflow-hidden'>
                         {
                             type==="video"?
                             <div>
                                 {callAccepted   && !callEnded ?
-                                <video playsInline ref={userVideo} autoPlay className='w-full' />
+                                <video playsInline ref={userVideo} autoPlay className='z-10 rounded-3xl' />
                                 :
                                 <img className='w-12' src={loader} alt="loader" />
                                 }
@@ -173,10 +171,17 @@ export default function CallPage(props) {
                         }
                     </div>
                 </div>
-                <div className='w-12 bg-[#f70909] rounded-full '>
-                    <Tooltip content="Close the call" style='light'>
-                        <img onClick={()=>callUser(idToCall)} className='cursor-pointer pt-2 pb-2 pl-2 pr-2' src={phoneClose} alt="close" />
-                    </Tooltip>
+                <div className=' flex w-1/4 justify-between'>
+                    <div className='w-12 bg-[#34C934] rounded-full '>
+                        <Tooltip content="Call" style='light'>
+                            <img onClick={()=>callUser(idToCall)} className='cursor-pointer pt-2 pb-2 pl-2 pr-2' src={phoneCall} alt="close" />
+                        </Tooltip>
+                    </div>
+                    <div className='w-12 bg-[#f70909] rounded-full '>
+                        <Tooltip content="Close the call" style='light'>
+                            <img onClick={()=>leaveCall()} className='cursor-pointer pt-2 pb-2 pl-2 pr-2' src={phoneClose} alt="close" />
+                        </Tooltip>
+                    </div>
                 </div>
 
                 <div>
