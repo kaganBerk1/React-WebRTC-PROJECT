@@ -6,6 +6,8 @@ import check from "./../images/check-1.svg"
 import dots from "./../images/dots.svg"
 
 import copyIcon from "./../images/copy-1.svg"
+import camera from "./../images/camera.png"
+
 import { Avatar, Tooltip,Dropdown, } from 'flowbite-react';
 import useClickOutside from '../helper/useClickOutside ';
 
@@ -18,6 +20,8 @@ import { v4 } from 'uuid';
 
 export default function MainPageSide(props) {
     const [isCopied, setCopied] = React.useState(false);
+    const [styleChange, setStyleChanged] = React.useState(false);
+
     const [disabledInput,setDisabledInput]=useState(true)
     const [disabledTextarea,setDisabledTextarea]=useState(true)
     const [disaplayOptions,setDisplayOptions]=useState(false)
@@ -42,8 +46,13 @@ export default function MainPageSide(props) {
 
     const clickRefInput = React.useRef();
     const clickRefTextarea = React.useRef();
+    const uploadRef = React.useRef();
+
     const clickDots= React.useRef();
 
+    function handleClickInput(){
+        uploadRef.current.click()
+    }
 
     useEffect(()=>{
         setIsContactPage(window.location.pathname.includes("contact"))
@@ -83,21 +92,17 @@ export default function MainPageSide(props) {
        }
     }
 
-    useEffect(()=>{
-        const listRef = ref(storage);
-    },[])
-
     function uploadImage(){
         if(imageUpload == null){
             return 0
         }
-        alert("hi")
         const imageRef = ref(storage,`images/${imageUpload.name + v4() }`)
         console.log(imageRef)
         uploadBytes(imageRef, imageUpload).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
                 updateUserProfileImage(id,url)
                 setProfileImageUrl(url)
+                alert("hello")
             });
         });
 
@@ -141,6 +146,14 @@ export default function MainPageSide(props) {
             navigateTo(`/login`);
     }
 
+    function handleImageUpload(event){
+        setImageUpload(event.target.files[0])
+    }
+
+    useEffect(()=>{
+        uploadImage()
+    },[imageUpload])
+
     return (
     <div  className='rounded-3xl rounded-r-none w-2/6 bg-[#111B21] flex flex-col justify-between items-center'>
             <div  className='  flex items-end w-full text-white h-7  flex-col  relative top-4 right-4'>
@@ -154,16 +167,33 @@ export default function MainPageSide(props) {
                     </ul>
                 }
             </div>
-            <button onClick={uploadImage}>Upload Image</button>
-            <div className='flex  drop-shadow-xl hover:scale-110 duration-500 hover:duration-500 '>
-              <input className='w-full' type="file" onChange={(event)=>{setImageUpload(event.target.files[0])}} />
-              <Avatar
-                img={!isContactPage?profileImageUrl:""}
-                bordered={true}
-                rounded={true}
-                size="xl"
-                statusPosition="top-right"
-            />
+{/*             <button onClick={uploadImage}>Upload Image</button> */}
+            <div className='flex cursor-pointer relative drop-shadow-xl hover:scale-110 '>
+              <input  ref={uploadRef}  style={{height:"100%"}} className='opacity-0 w-full z-10 hover:z-40 absolute' type="file" onChange={(event)=>{handleImageUpload(event)}} />
+              <div style={{height:"100%"}}  onMouseEnter={()=>{
+                    setStyleChanged(true)
+                }} className={styleChange && !isContactPage ?"z-20 hover:z-10 duration-300 brightness-50 hover:duration-300 ":"z-20 hover:z-10 duration-300 hover:duration-300 "}>
+                <Avatar
+                    img={!isContactPage?profileImageUrl:""}
+                    bordered={true}
+                    rounded={true}
+                    size="xl"
+                    statusPosition="top-right"
+                />
+              </div>
+              {
+                !isContactPage&&
+                <div  onMouseEnter={()=>{
+                    setStyleChanged(true)
+                  }} onMouseLeave={()=>{
+                    setStyleChanged(false)
+                  }} style={{height:"100%"}}
+                    onClick={handleClickInput}
+                   className='w-full  duration-200   hover:duration-200 flex  items-center justify-center flex-col absolute z-10 hover:z-20'>
+                        <img className='w-8 mb-4' src={camera } alt="camera" />
+                        <span className='px-4 text-center text-white uppercase text-xs'>Change Profile Image</span>
+                  </div>
+              }
             </div>
 
             <div className='  w-5/6 pr-2 pl-2 justify-between'>
