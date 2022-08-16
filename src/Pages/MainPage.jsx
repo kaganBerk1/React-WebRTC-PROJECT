@@ -27,7 +27,7 @@ export default function MainPage(props) {
   }, []);
 
   useEffect(()=>{
-    setContacts(userData.contacts)
+    setContacts(userData.contacts?userData.contacts:[])
   },[userData.contacts])
 
   
@@ -36,7 +36,7 @@ export default function MainPage(props) {
     let user= await getUser(currentUser.uid)
     console.log(user)
     setUserData(user)
-    setContacts(user.contacts)
+    setContacts(user.contacts?user.contacts:[])
     /* localStorage.setItem("userData",user) */
   }
 
