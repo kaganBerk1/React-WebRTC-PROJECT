@@ -53,3 +53,16 @@ export const updateUser= async function(name,about,userID,contacts){
     }
 }
 
+export const updateUserProfileImage= async function(userID,profileImageUrl){
+    try{ 
+        const userRef = doc(db,"users",userID)
+        await updateDoc(userRef, {
+            profileImageUrl
+        });
+
+
+    }catch(err){
+        console.log(err.message)
+    }
+}
+

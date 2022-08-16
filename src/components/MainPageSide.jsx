@@ -11,8 +11,10 @@ import useClickOutside from '../helper/useClickOutside ';
 
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate  } from "react-router-dom";
-import { updateUser } from '../services/UserServices';
-
+import { updateUser, updateUserProfileImage } from '../services/UserServices';
+import { storage } from '../firebase.config';
+import { getDownloadURL, ref,uploadBytes } from 'firebase/storage';
+import { v4 } from 'uuid';
 
 export default function MainPageSide(props) {
     const [isCopied, setCopied] = React.useState(false);
@@ -29,9 +31,12 @@ export default function MainPageSide(props) {
     const [isContactPage, setIsContactPage] = React.useState(window.location.pathname.includes("contact"));
     const [name,setName]=useState(props?.userData?.name===""?"Set Name...":props.userData?.name)
     const [about,setAbout]=useState(props?.userData?.about===""?"Set About...":props.userData?.about)
+    const [profileImageUrl,setProfileImageUrl]=useState(props?.userData?.profileImageUrl===""?"":props.userData?.profileImageUrl)
+
     const [id,setId]=useState(props?.userData?.userId)
     const auth =useAuth()
-
+    
+    const [imageUpload,setImageUpload] = useState(null)
     const nameInput = useRef(null);
     const aboutInput = useRef(null);
 
@@ -47,6 +52,7 @@ export default function MainPageSide(props) {
     useEffect(()=>{
         setName(props?.userData?.name===""?"Set Name...":props.userData?.name);
         setAbout(props?.userData?.about===""?"Set About...":props.userData?.about)
+        setProfileImageUrl(props?.userData?.profileImageUrl===""?"":props.userData?.profileImageUrl)
         setId(props.userData?.userId)
     },[props.userData])
     
@@ -77,6 +83,25 @@ export default function MainPageSide(props) {
        }
     }
 
+    useEffect(()=>{
+        const listRef = ref(storage);
+    },[])
+
+    function uploadImage(){
+        if(imageUpload == null){
+            return 0
+        }
+        alert("hi")
+        const imageRef = ref(storage,`images/${imageUpload.name + v4() }`)
+        console.log(imageRef)
+        uploadBytes(imageRef, imageUpload).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((url) => {
+                updateUserProfileImage(id,url)
+                setProfileImageUrl(url)
+            });
+        });
+
+    }
 
 
 
@@ -122,16 +147,18 @@ export default function MainPageSide(props) {
                 {!isContactPage&&<img  ref={clickDots}  onClick={()=>setDisplayOptions(!disaplayOptions)} className='w-6 mr-4 relative  cursor-pointer' src={dots} alt="dots"  />}
                 {
                     disaplayOptions&&
-                    <ul className='flex flex-col mr-3 mt-1  bg-[#f1f1f1] text-[#313131]  rounded-xl pr-2 pl-2  justify-center'>
+                    <ul className='flex z-10 flex-col mr-3 mt-1  bg-[#f1f1f1] text-[#313131]  rounded-xl pr-2 pl-2  justify-center'>
                         <li onClick={logout} className='pl-3 pr-3  mt-3 mb-3 cursor-pointer  rounded-2xl hover:bg-[#e3e3e3] items-center justify-center'>
                             Log out
                         </li>
                     </ul>
                 }
             </div>
-            <div className=' drop-shadow-xl hover:scale-110 duration-500 hover:duration-500 '>
+            <button onClick={uploadImage}>Upload Image</button>
+            <div className='flex  drop-shadow-xl hover:scale-110 duration-500 hover:duration-500 '>
+              <input className='w-full' type="file" onChange={(event)=>{setImageUpload(event.target.files[0])}} />
               <Avatar
-                img={!isContactPage?profileImage:""}
+                img={!isContactPage?profileImageUrl:""}
                 bordered={true}
                 rounded={true}
                 size="xl"
