@@ -186,11 +186,9 @@ export default function CallPage(props) {
 
                 <div>
 				{receivingCall && !callAccepted  ? (
-						<div className="caller">
-						<h1 >{name} is calling...</h1>
-						<button variant="contained" color="primary" onClick={answerCall}>
-							Answer
-						</button>
+					<div className="flex flex-col justify-center">
+						<h1 className='ml-4 mb-3 text-[#f70909]' > Calling...</h1>
+                        <button type="button" onClick={answerCall} class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Answer</button>
 					</div>
 				) : null}
 			</div>
