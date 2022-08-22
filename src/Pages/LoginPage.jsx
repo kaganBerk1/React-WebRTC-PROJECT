@@ -40,9 +40,9 @@ export default function LoginPage() {
     
 
   return (
-    <div  className=' bg-gradient-to-t from-[#8abdd8] via-purple-500 to-[#bfe9ff] flex justify-center items-center min-h-screen z-indexx'>
-        <div className='shadow-2xl rounded-3xl aspect-video w-3/4 bg-[#313131] flex flex-col items-center justify-around'>
-        <section style={{border:"0.1px solid #f1f1f1",borderRadius:"25px"}} className="   py-12 w-2/6 h-4/6 px-8 ">
+    <div  className=' bg-gradient-to-t from-[#8abdd8] via-purple-500 to-[#bfe9ff] flex justify-center items-center min-h-screen'>
+        <div  className='shadow-2xl xl:rounded-3xl xl:aspect-video xl:w-3/4  w-full  h-screen  bg-[#313131] flex flex-col items-center justify-around'>
+        <section style={{border:"0.1px solid #f1f1f1",borderRadius:"25px"}} className=" py-12  xl:py-12  xl:w-2/6 xl:h-4/6 xl:px-8 ">
             <div className="px-6 h-full text-gray-800">
                 <div
                 className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
