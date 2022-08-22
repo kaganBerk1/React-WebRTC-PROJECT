@@ -16,7 +16,7 @@ export default function MainPageBody(props) {
     scrollbarWidth:"none",
     overflowX: "hidden",
     overflowY:"scroll",
-    marginRight:"-20px"
+    marginRight:"-20px",
   }
 
 
@@ -42,7 +42,7 @@ export default function MainPageBody(props) {
     navigateTo(`/contact/${id}`);
   }
   return (
-    <div style={customStye} className="flex flex-1 flex-col  gap-4 mt-6 px-16 ml-1 items-center">
+    <div style={customStye} className="flex flex-1 flex-col  gap-4 mt-6  px-8 xl:px-16 xl:ml-2 pl-8   items-center">
         {
           props.contacts?.map((val)=>{
             return(
@@ -72,7 +72,8 @@ export default function MainPageBody(props) {
           </Tooltip>
         </div>
         {
-          openModal&&<AddNewModal handleContacts={handleContacts} openModal={openModal} onClose={onCloseModal} onOpen={onOpenModal}></AddNewModal>
+          openModal&&
+          <AddNewModal handleContacts={handleContacts} openModal={openModal} onClose={onCloseModal} onOpen={onOpenModal}></AddNewModal>
         }
     </div>
   )

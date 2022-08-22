@@ -47,6 +47,7 @@ export default function MainPageSide(props) {
     const clickRefInput = React.useRef();
     const clickRefTextarea = React.useRef();
     const uploadRef = React.useRef();
+    const clickBody = React.useRef();
 
     const clickDots= React.useRef();
 
@@ -76,6 +77,12 @@ export default function MainPageSide(props) {
 
     useClickOutside(clickDots,()=>{
         setDisplayOptions(false)
+    });
+
+    useClickOutside(clickBody,()=>{
+/*        if(document.getElementById("sidebar").offsetWidth){
+          props.handleSideBar("close")
+       }  */
     });
 
 
@@ -154,8 +161,9 @@ export default function MainPageSide(props) {
     },[imageUpload])
 
     return (
-    <div  className='rounded-3xl rounded-r-none w-2/6 bg-[#111B21] flex flex-col justify-between items-center'>
-            <div  className='  flex items-end w-full text-white h-7  flex-col  relative top-4 right-4'>
+        <>
+         <div ref={clickBody}  id="sidebar" className={"xl:rounded-3xl  xl:flex xl:rounded-r-none w-full xl:w-2/6 bg-[#111B21] flex flex-col justify-between items-center "+(props.showSidebar && props.width<1240 ?"flex z-40 w-4/6 absolute h-screen":"hidden")}>
+            <div  className=' flex items-end w-full text-white h-7  flex-col  relative top-4 right-4'>
                 {!isContactPage&&<img  ref={clickDots}  onClick={()=>setDisplayOptions(!disaplayOptions)} className='w-6 mr-4 relative  cursor-pointer' src={dots} alt="dots"  />}
                 {
                     disaplayOptions&&
@@ -217,17 +225,23 @@ export default function MainPageSide(props) {
                     </Tooltip>
                 </div>
             </div>
-            <div className=' w-5/6 xl:mb-12 pr-2 pl-2 justify-between flex flex-col '>
+            <div className=' w-5/6 xl:mb-12 mb-12  pr-2 pl-2 justify-between flex flex-col '>
                 <span className= ' text-[#B8336A]  text-xl font-semibold cursor-default'>Your Id</span>
                 <div className='flex justify-between items-center'>
-                    <span className='text-[#fff] text-m focus:opacity-100 opacity-80 cursor-default mt-2 '>{isContactPage?props.contactUser?.userId : id}</span>
+                    <span style={{marginLeft:"-2px"}} className='text-[#fff] text-sm   xl:text-m focus:opacity-100 opacity-80 cursor-default mt-2 '>{isContactPage?props.contactUser?.userId : id}</span>
                         <Tooltip content={isCopied?"Copied ✔":"Copy "} style="light"  animation="duration-500">
 
-                            <img onClick={()=>copy()} className='w-5 cursor-pointer mt-1  duration-300 hover:rotate-6' src={copyIcon} alt="copy" />
+                            <img onClick={()=>copy()} className='ml-3 xl:ml-0 w-5 cursor-pointer mt-1   duration-300 hover:rotate-6' src={copyIcon} alt="copy" />
 
                         </Tooltip>
                 </div>
             </div>
     </div>
+    {
+        props.width<1240 &&
+            <div onClick={props.handleSideBar} className='absolute right-0 w-2/6 h-screen'> 
+            </div>
+    }
+    </>
   )
 }
