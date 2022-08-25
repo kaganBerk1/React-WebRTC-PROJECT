@@ -10,7 +10,7 @@ import { useAuth } from '../contexts/AuthContext';
 export default function MainPage(props) {
   const ref = useRef(null);
   const [height, setHeight] = useState(0);
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState(window.innerWidth);
   const [showSidebar, setShowSidebar] = useState(false);
 
 
