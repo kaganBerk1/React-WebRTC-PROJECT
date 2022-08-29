@@ -45,10 +45,9 @@ export default function CallPage(props) {
         fetchData();
 
         let parts = window.location.pathname.split('/');
+        let videoBool=parts[parts.length-1]=="video"
         setType(parts.pop());
-        let video=parts.pop()==="video"
-
-		navigator.mediaDevices.getUserMedia({ video: video, audio: true }).then((stream) => {
+		navigator.mediaDevices.getUserMedia({ video: videoBool, audio: true }).then((stream) => {
 			    setStream(stream)
 				myVideo.current.srcObject = stream
                 window.localStream = stream;
@@ -126,7 +125,7 @@ export default function CallPage(props) {
 
     const leaveCall = () => {
         setCallEnded(true)
-        localStream.getVideoTracks()[0].stop();
+        localStream.getVideoTracks()[0]?.stop();
         navigateTo(-1)
 		connectionRef.current.destroy()
 	}
@@ -134,8 +133,8 @@ export default function CallPage(props) {
 
   return (
     <div  className=' bg-gradient-to-t from-[#8abdd8] via-purple-500 to-[#bfe9ff] flex justify-center items-center min-h-screen z-indexx'>
-        <div className='shadow-2xl xl:rounded-3xl xl:aspect-video xl:w-3/4 bg-[#313131] w-full h-screen flex flex-col items-center justify-around'>
-                <div className='w-full gap-4 xl:gap-0 flex flex-col xl:flex-row xl:h-3/6 h-4/6 xl:mt-8 mt-12  px-2 xl:px-0'>
+        <div className='shadow-2xl xl:rounded-3xl xl:aspect-video xl:w-3/4 bg-[#313131] w-full h-screen  flex flex-col items-center justify-around'>
+                <div className='w-full gap-4 xl:gap-0 flex flex-col xl:flex-row  h-4/6 xl:h-3/6 xl:mt-8 mt-12  px-2 xl:px-0'>
                     <div className='xl:w-3/6 w-full h-screen xl:h-auto bg-[#f1f1f1] xl:mr-3 xl:ml-6 rounded-3xl flex justify-center items-center overflow-hidden'>
                         {
                             type==="video"?
@@ -144,7 +143,11 @@ export default function CallPage(props) {
                             </>
                     
                             :
-                            <img className='w-12' src={user} alt=""  />
+                            <>
+                                <img className='w-12' src={user} alt=""  />
+                                <video playsInline muted  ref={myVideo} autoPlay className='absolute z-10 xl:rounded-3xl ' />
+                            </>
+                            
                         }
                     </div>
 {/*                     <div className='flex flex-row'>
@@ -158,7 +161,7 @@ export default function CallPage(props) {
                         onChange={(e) => setIdToCall(e.target.value)}
                         />
                     </div> */}
-                    <div className='xl:w-3/6 h-screen  w-full  bg-[#f1f1f1] xl:ml-3 xl:mr-6 rounded-3xl flex justify-center items-center overflow-hidden'>
+                    <div className='xl:w-3/6 h-screen xl:h-auto  w-full  bg-[#f1f1f1] xl:ml-3 xl:mr-6 rounded-3xl flex justify-center items-center overflow-hidden'>
                         {
                             type==="video"?
                             <div>
@@ -169,7 +172,10 @@ export default function CallPage(props) {
                                 }
                             </div>
                             :
-                            <img className='w-12' src={user} alt=""  />
+                            <>
+                            <img className='w-12 z-20' src={user} alt=""  />
+                            <video playsInline ref={userVideo} autoPlay className='absolute z-10 xl:rounded-3xl' />
+                            </>
                         }
                     </div>
                 </div>
