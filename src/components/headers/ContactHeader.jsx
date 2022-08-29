@@ -17,14 +17,24 @@ export default function ContactHeader(props) {
     })
 
   return (
-    <div className="sticky flex justify-center mt-6">
-        <div  className=' flex justify-between shadow-lg rounded-xl  w-5/6 h-14 text-[#313131] bg-white w-6/6'>   
+    <div className="sticky flex justify-center items-center  px-2  xl:px-0 mt-6">
+        <div  className='ml-2 xl:ml-0 flex justify-between shadow-lg rounded-xl  xl:w-5/6 xl:h-14 text-[#313131] w-full bg-white xl:w-6/6'>   
             <div className="flex space-y-1 font-medium dark:text-white items-center">
                 <Tooltip content={"Back"} style="dark"  animation="duration-500">
                     <img style={{width:"40px",paddingLeft:"6px",paddingRight:"6px"}}  className='ml-3 pt-2 pb-2  rounded-full  mt-4 mb-4  w-6 hover:bg-[#f1f1f1] hover:duration-500 duration-500 rotate-180 cursor-pointer' onClick={goBack} src={back} alt="back" />
 
                 </Tooltip>
-                <div className='flex ml-4 flex-col'>
+                {
+                props?.width<1240 &&
+                    <div className='w-12 ml-2 xl:ml-0 ' onClick={()=>props.handleSideBar("open")}>
+                    <Avatar
+                        img={props.contactUser?.profileImageUrl}
+                        rounded={true}
+                        size="md"
+                        ></Avatar>
+                    </div>
+                }
+                <div className='flex xl:ml-4 flex-col'>
                     <div>
                     {props.contactUser?.name}
                     </div>

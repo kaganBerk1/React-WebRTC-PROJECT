@@ -14,7 +14,7 @@ export default function ContactPageBody(props) {
   }
 
   return (
-    <div style={customStyle} className='px-16 overflow-scroll '>
+    <div style={customStyle} className='xl:px-16 px-8 overflow-scroll '>
 
          <div className="flex items-end mt-4 gap-2 ">
            {/*  <img src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="My profile" className="w-6 h-6 rounded-full order-1"/> */}
