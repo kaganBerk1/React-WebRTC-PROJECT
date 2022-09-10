@@ -6,7 +6,6 @@ import { useAuth } from '../contexts/AuthContext';
 
 
 export default function LoginPage() {
-    const {currentUser,signup,signin} =useAuth()
     const [mail,setMail] = useState("")
     const [error,setError] = useState(false)
     const [password,setPassword] = useState("")
@@ -19,6 +18,7 @@ export default function LoginPage() {
     }, [location]);
     
     async function login(){
+        const {signin} = await useAuth()
         const user = await signin(mail,password)
         console.log(user)
         if(!user){
@@ -40,7 +40,7 @@ export default function LoginPage() {
     
 
   return (
-    <div  className=' bg-gradient-to-t from-[#8abdd8] via-purple-500 to-[#bfe9ff] flex justify-center items-center min-h-screen'>
+    <div data-testid='main-div' className=' bg-gradient-to-t from-[#8abdd8] via-purple-500 to-[#bfe9ff] flex justify-center items-center min-h-screen'>
         <div  className='shadow-2xl xl:rounded-3xl xl:aspect-video xl:w-3/4  w-full  h-screen xl:h-auto  bg-[#313131] flex flex-col items-center justify-around'>
         <section style={{border:"0.1px solid #f1f1f1",borderRadius:"25px"}} className=" md:px-20 md:py-48 py-12  xl:py-12  xl:w-2/6 xl:h-4/6 xl:px-8 ">
             <div className="px-6 h-full text-gray-800">
