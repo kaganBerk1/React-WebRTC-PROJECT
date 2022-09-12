@@ -6,6 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 
 export default function LoginPage() {
+    const {signin} = useAuth()
     const [mail,setMail] = useState("")
     const [error,setError] = useState(false)
     const [password,setPassword] = useState("")
@@ -18,7 +19,6 @@ export default function LoginPage() {
     }, [location]);
     
     async function login(){
-        const {signin} = await useAuth()
         const user = await signin(mail,password)
         console.log(user)
         if(!user){
@@ -54,6 +54,7 @@ export default function LoginPage() {
                     
                     <div className="mb-6">
                         <input
+                        data-testid='email'
                         type="text"
                         className="form-control block w-full px-4 py-2 xl:py-2  md:py-6 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         id="exampleFormControlInput2"
@@ -65,6 +66,7 @@ export default function LoginPage() {
                 
                     <div className="mb-6">
                         <input
+                        data-testid='password'
                         type="password"
                         className="form-control block w-full px-4 xl:py-2  md:py-6 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         id="exampleFormControlInput2"
@@ -79,6 +81,7 @@ export default function LoginPage() {
  */}
                     <div className="text-center lg:text-left w-full mb-8">
                         <button
+                        data-testid='button'
                         type="button"
                         className="inline-block xl:text-sm px-7 md:text-lg w-full py-3 xl:py-3 md:py-6  bg-blue-600 text-[#f1f1f1] font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-[#a185e7] hover:shadow-lg focus:bg-[#a185e7] focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                         onClick={login}
